@@ -9,13 +9,13 @@ import (
 	"log"
 	"net/http"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 func main() {
 
 	// Conectar a la base de datos
-	db, err := sql.Open("sqlite3", "./books.db")
+	db, err := sql.Open("sqlite", "./books.db")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -33,7 +33,7 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	// Inyyectar nuestras dependencias
+	// Inyectar nuestras dependencias
 	bookStore := store.New(db)
 	bookService := service.New(bookStore)
 	bookHandler := transport.New(bookService)
@@ -42,7 +42,7 @@ func main() {
 	http.HandleFunc("/books", bookHandler.HandleBooks)
 	http.HandleFunc("/books/", bookHandler.HandleBookByID)
 
-	fmt.Println(" Servidor jecutandose en http://localhost:8080")
+	fmt.Println("Servidor ejecutandose en http://localhost:8080")
 	fmt.Println(" API Endpoints:")
 	fmt.Println(" GET    /books      - Obtener todos los libros")
 	fmt.Println(" GET    /books/{id} - Obtener un libro por su ID")
